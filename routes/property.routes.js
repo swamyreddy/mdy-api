@@ -1,4 +1,4 @@
-const { protect } = require("../middlewares/auth.middlewares");
+const { protect } = require("../middlewares/auth.middleware");
 const express = require("express");
 const propertiesController = require("../controllers/property.controller");
 const amenitiesController = require("../controllers/amenities.controller");
