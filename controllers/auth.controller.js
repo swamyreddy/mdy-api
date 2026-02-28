@@ -17,24 +17,49 @@ const generateToken = (payload) => {
  * Register
  */
 exports.register = asyncHandler(async (req, res, next) => {
-    const { email, password } = req.body;
+    try {
+        // Check validation errors
 
-    if (!email || !password) {
-        throw new AppError("Email and password required", 400);
+        const { name, email, password, phone } = req.body;
+
+        // Check if user already exists
+        const existingUser = await User.findOne({ where: { email } });
+
+        if (existingUser) {
+            return res.status(400).json({
+                status: "Error",
+                message: "Email already registered",
+            });
+        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create user
+        const newUser = await User.create({
+            name,
+            email,
+            phone,
+            password: hashedPassword,
+        });
+
+        return res.status(201).json({
+            status: "Success",
+            message: "User registered successfully",
+            data: {
+                id: newUser.id,
+                name: newUser.name,
+                email: newUser.email,
+                phone: newUser.phone,
+            },
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            status: "Error",
+            message: "Internal server error",
+        });
     }
-
-    const userExists = users.find((u) => u.email === email);
-    if (userExists) {
-        throw new AppError("User already exists", 400);
-    }
-
-    const newUser = { id: Date.now(), email, password };
-    users.push(newUser);
-
-    res.status(201).json({
-        success: true,
-        message: "User registered successfully",
-    });
 });
 
 /**
