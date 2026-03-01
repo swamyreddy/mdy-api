@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const Property = sequelize.define("properties", {
