@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../utils/database");
+const sequelize = require("../config/database");
 const Property = require("./property");
 
 const PropertyPhotos = sequelize.define("propertyphotos", {
