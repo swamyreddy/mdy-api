@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 5000;
 
 sequelize
     .authenticate()
+    .sync({ alter: true })
     .then(() => console.log("DB connected"))
     .catch((err) => console.error(err));
 
