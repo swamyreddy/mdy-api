@@ -29,7 +29,7 @@ const Property = sequelize.define("properties", {
         get() {
             const path = this.getDataValue("defaultPic");
             if (!path) return null;
-            return `http://localhost:3001/images/${path}`;
+            return `${process.env.API_URL}/images/${path}`;
         },
         set(value) {
             throw new Error("Do not try to set the value!");
