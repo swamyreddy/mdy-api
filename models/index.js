@@ -1,3 +1,4 @@
+const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const User = require("./user.model");
 
@@ -8,6 +9,7 @@ const Unit = require("./unit.model");
 const PropertyPhoto = require("./propertyPhotos.model");
 const Amenity = require("./amenity.model");
 const PropertyAmenity = require("./propertyAmenity.model");
+const PropertyUnit = require("./propertyUnits.model");
 
 // 🔥 Define relationship
 Property.hasMany(PropertyPhoto, { as: "photos", foreignKey: "propertyId" });
@@ -29,9 +31,12 @@ PropertyPhoto.belongsTo(Property, { foreignKey: "propertyId" });
 Unit.belongsTo(Property, { foreignKey: "propertyId" });
 module.exports = {
     sequelize,
+
     Property,
     Unit,
-    PropertyPhoto,
     Amenity,
+    PropertyUnit,
+    PropertyAmenity,
+    PropertyPhoto,
 };
 sequelize.sync();

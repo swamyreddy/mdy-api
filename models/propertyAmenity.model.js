@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const sequelize = require("../utils/database");
+const sequelize = require("../config/database");
 
 const PropertyAmenity = sequelize.define("propertyamenities", {
     propertyId: {

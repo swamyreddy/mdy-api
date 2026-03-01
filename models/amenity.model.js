@@ -1,17 +1,9 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../utils/database");
-const Property = require("./property.model");
-const PropertyAmenity = require("./propertyAmenity.model");
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
 
 const Amenity = sequelize.define("amenities", {
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-        allowNull: false,
-    },
     name: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
     },
 });

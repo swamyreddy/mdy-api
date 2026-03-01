@@ -8,7 +8,7 @@ const User = sequelize.define("users", {
     password: { type: DataTypes.STRING, allowNull: false },
     createdAt: { type: DataTypes.DATE, allowNull: false },
     updatedAt: { type: DataTypes.DATE, allowNull: false },
-    // role: {
+    // role: {config
     //     type: DataTypes.STRING,
     //     defaultValue: "USER",
     // },
