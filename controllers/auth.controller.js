@@ -90,8 +90,8 @@ exports.login = asyncHandler(async (req, res, next) => {
         });
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false, // true in production (HTTPS)
-            sameSite: "lax",
+            secure: true, // true in production (HTTPS)
+            sameSite: "none",
         });
 
         res.status(200).json({
