@@ -29,7 +29,7 @@ const Unit = sequelize.define("units", {
         get() {
             const path = this.getDataValue("unitFloorPlan");
             if (!path) return null;
-            return `http://localhost:3001/images/${path}`;
+            return `${process.env.API_URL}/images/${path}`;
         },
         set(value) {
             throw new Error("Do not try to set the value!");
