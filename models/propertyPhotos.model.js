@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const Property = require("./property");
+const Property = require("./property.model");
 
 const PropertyPhotos = sequelize.define("propertyphotos", {
     imageUrl: DataTypes.STRING,
@@ -17,12 +17,5 @@ const PropertyPhotos = sequelize.define("propertyphotos", {
         },
     },
 });
-
-Property.hasMany(PropertyPhotos, {
-    foreignkey: "propertyId",
-    as: "photos",
-    onDelete: "CASCADE",
-});
-PropertyPhotos.belongsTo(Property, { foreignkey: "propertyId" });
 
 module.exports = PropertyPhotos;

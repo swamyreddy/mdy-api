@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const Property = require("./property");
+const Property = require("./property.model");
 const Unit = sequelize.define("units", {
     id: {
         type: DataTypes.INTEGER,
