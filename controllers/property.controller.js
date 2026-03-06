@@ -18,10 +18,10 @@ exports.getAddProperty = (req, res, next) => {
 
 exports.postAddProperty = async (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
-    const photos = req.files["files"]?.map((file) => file.filename);
+    const photos = req.files["files"]?.map((file) => file.key);
     const units = JSON.parse(req.body.units || "[]");
     const unitFloorPlans =
-        req.files?.unitFloorPlans?.map((file) => file.filename) || [];
+        req.files?.unitFloorPlans?.map((file) => file.key) || [];
     const {
         isMultipleProperties,
         title,
@@ -45,16 +45,14 @@ exports.postAddProperty = async (req, res, next) => {
         projectAreaUnit,
         projectAreaInSqYards,
     } = req.body;
-    console.log(
-        req.files["defaultPic"]?.map((file) => file.filename[0]),
-        "req.fileNEw++",
-    );
+    console.log(req.files, "req.files++");
+
     await Property.create({
         isMultipleProperties: isMultipleProperties,
         title: title,
         price: price,
         location: location,
-        defaultPic: req.files["defaultPic"]?.map((file) => file.filename)[0],
+        defaultPic: req.files["defaultPic"]?.map((file) => file.key)[0],
         propertyType: propertyType,
         builtupArea: builtupArea,
         carpetArea: carpetArea,
@@ -112,10 +110,10 @@ exports.updateProperty = async (req, res) => {
     const units = JSON.parse(req.body.units || "[]");
     let defaultPicTemp = "";
     if (req.files["defaultPic"]) {
-        defaultPicTemp = req.files["defaultPic"]?.map((file) => file.filename);
+        defaultPicTemp = req.files["defaultPic"]?.map((file) => file.key);
     }
     const unitFloorPlans =
-        req.files?.unitFloorPlans?.map((file) => file.filename) || [];
+        req.files?.unitFloorPlans?.map((file) => file.key) || [];
     const {
         id,
         isMultipleProperties,
@@ -175,11 +173,11 @@ exports.updateProperty = async (req, res) => {
             }
             if (req.files.files && req.files.files.length > 0) {
                 const photos = req.files.files["files"]?.map(
-                    (file) => file.filename,
+                    (file) => file.key,
                 );
 
                 const photoRecords = req.files.files.map((photo, index) => ({
-                    imageUrl: photo.filename,
+                    imageUrl: photo.key,
                     title: Array.isArray(req.body.titles)
                         ? req.body.titles[index]
                         : req.body.titles,

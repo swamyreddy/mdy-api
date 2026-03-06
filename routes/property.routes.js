@@ -4,6 +4,7 @@ const propertiesController = require("../controllers/property.controller");
 const amenitiesController = require("../controllers/amenities.controller");
 const multer = require("multer");
 const router = express.Router();
+const fileUpload = require("../middlewares/fileUpload.middleware");
 const fileStorage = multer.diskStorage({
     destination: "./images",
     filename: (req, file, cb) => {
@@ -34,7 +35,7 @@ router.get("/add-property", protect, propertiesController.getAddProperty);
 
 router.post(
     "/add-property",
-    upload.fields([
+    fileUpload.fields([
         { name: "defaultPic", maxCount: 1 },
         { name: "files", maxCount: 5 },
         { name: "unitFloorPlans", maxCount: 10 },
@@ -59,7 +60,7 @@ router.get(
 );
 router.post(
     "/edit-property",
-    upload.fields([
+    fileUpload.fields([
         { name: "defaultPic", maxCount: 1 },
         { name: "files", maxCount: 5 },
         { name: "unitFloorPlans", maxCount: 10 },
