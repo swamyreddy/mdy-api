@@ -11,7 +11,7 @@ const PropertyPhotos = sequelize.define("propertyphotos", {
         get() {
             const path = this.getDataValue("imageUrl");
             if (!path) return null;
-            return `${process.env.API_URL}/images/${path}`;
+            return `${process.env.S3_BASE_URL}${path}`;
         },
         set(value) {
             throw new Error("Do not try to set the value!");
