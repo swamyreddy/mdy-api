@@ -82,7 +82,7 @@ const Property = sequelize.define("properties", {
     },
     projectAreaValue: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
     },
 
     projectAreaUnit: {
@@ -92,7 +92,7 @@ const Property = sequelize.define("properties", {
 
     projectAreaInSqYards: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
     },
 });
 
