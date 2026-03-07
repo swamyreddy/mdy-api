@@ -45,8 +45,7 @@ exports.postAddProperty = async (req, res, next) => {
         projectAreaUnit,
         projectAreaInSqYards,
     } = req.body;
-    console.log(req.files, "req.files++");
-
+    console.log(req.body.projectAreaValue, "req.body.projectAreaValue");
     await Property.create({
         isMultipleProperties: isMultipleProperties,
         title: title,
@@ -64,9 +63,15 @@ exports.postAddProperty = async (req, res, next) => {
         createdBy: createdBy,
         modifiedBy: modifiedBy,
         facing: facing,
-        projectAreaValue: projectAreaValue,
+        projectAreaValue:
+            projectAreaValue && !isNaN(projectAreaValue)
+                ? Number(projectAreaValue)
+                : null,
         projectAreaUnit: projectAreaUnit,
-        projectAreaInSqYards: projectAreaInSqYards,
+        projectAreaInSqYards:
+            projectAreaInSqYards && !isNaN(projectAreaInSqYards)
+                ? Number(projectAreaInSqYards)
+                : null,
     })
         .then(async (result) => {
             if (amenities && amenities.length > 0) {
@@ -96,15 +101,13 @@ exports.postAddProperty = async (req, res, next) => {
             console.log(result, "Property saving result");
         })
         .catch((err) => {
-            res.json({
-                status: "Error",
-                data: err,
-            });
-            console.log(err, "Error accured while creating a Property.");
+            console.log(projectAreaValue, "projectAreaValue2++");
+            console.log(err, "Creation Error++");
+            next(err);
         });
 };
 
-exports.updateProperty = async (req, res) => {
+exports.updateProperty = async (req, res, next) => {
     console.log(req.body, "id+++");
     const url = req.protocol + "://" + req.get("host");
     const units = JSON.parse(req.body.units || "[]");
@@ -156,10 +159,16 @@ exports.updateProperty = async (req, res) => {
             property.description = description;
             property.totalFloors = totalFloors;
             property.propertyAge = propertyAge;
-            property.projectAreaValue = projectAreaValue;
-            property.projectAreaUnit = projectAreaUnit;
-            property.projectAreaInSqYards = projectAreaInSqYards;
-            property.facing = facing;
+            property.projectAreaValue =
+                projectAreaValue && !isNaN(projectAreaValue)
+                    ? Number(projectAreaValue)
+                    : null;
+            ((property.projectAreaUnit = projectAreaUnit),
+                (property.projectAreaInSqYards =
+                    projectAreaInSqYards && !isNaN(projectAreaInSqYards)
+                        ? Number(projectAreaInSqYards)
+                        : null),
+                (property.facing = facing));
             return property.save();
         })
         .then(async (result) => {
@@ -192,11 +201,11 @@ exports.updateProperty = async (req, res) => {
             });
         })
         .catch((err) => {
-            console.log(err, "error");
-            res.json({
-                status: "Error",
-                data: err,
-            });
+            next(err);
+            // res.stausCode().json({
+            //     status: "Error",
+            //     data: err,
+            // });
         });
 };
 async function createUnitOfProperty(units, unitFloorPlans, propetyId) {
